@@ -1,12 +1,12 @@
 [package]
 name = "ueberzug"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
-author="Adit Chauhan"
-repository="https://github.com/Adit-Chauhan/Ueberzug-rs"
+author = "Adit Chauhan, Quentin Konieczko"
+repository = "https://github.com/qkzk/Ueberzug-rs"
 description = "Unofficial Ueberzug bindings to use in rust projects"
 license = "MIT"
-keywords=["graphics","image","terminal","ueberzug"]
+keywords = ["graphics", "image", "terminal", "ueberzug"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]

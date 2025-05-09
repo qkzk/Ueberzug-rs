@@ -78,7 +78,7 @@ impl Ueberzug {
             *ueberzug = Some(
                 std::process::Command::new("ueberzug")
                     .args(["layer", "--silent"])
-                    .stdin(Stdio::null())
+                    .stdin(Stdio::piped())
                     .stdout(Stdio::null())
                     .spawn()?,
             );

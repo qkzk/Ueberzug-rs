@@ -38,6 +38,12 @@ use std::sync::RwLock;
 /// Main Ueberzug Struct
 pub struct Ueberzug(RwLock<Option<Child>>);
 
+impl Default for Ueberzug {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Ueberzug {
     /// Creates the Default Ueberzug instance
     /// One instance can handel multiple images provided they have different identifiers
@@ -59,7 +65,7 @@ impl Ueberzug {
     pub fn clear(&self, identifier: &str) {
         let config = UeConf {
             action: Actions::Remove,
-            identifier: identifier,
+            identifier,
             ..Default::default()
         };
         let cmd = config.to_json();
@@ -71,7 +77,7 @@ impl Ueberzug {
         if ueberzug.is_none() {
             *ueberzug = Some(
                 std::process::Command::new("ueberzug")
-                    .args(&["layer", "--silent"])
+                    .args(["layer", "--silent"])
                     .stdin(Stdio::piped())
                     .stdout(Stdio::piped())
                     .spawn()?,
@@ -195,12 +201,12 @@ macro_rules! if_not_none {
 
 impl<'a> UeConf<'a> {
     fn to_json(&self) -> String {
-        if self.identifier == "" {
+        if self.identifier.is_empty() {
             panic!("Incomplete Information : Itentifier Not Found");
         }
         match self.action {
             Actions::Add => {
-                if self.path == "" {
+                if self.path.is_empty() {
                     panic!("Incomplete Information : Path empty");
                 }
                 let mut jsn = String::from(r#"{"action":"add","#);
@@ -216,7 +222,7 @@ impl<'a> UeConf<'a> {
                 jsn = if_not_none!(jsn, "sync", self.synchronously_draw);
                 jsn = if_not_none!(jsn, "scaling_position_x", self.scaling_position_x);
                 jsn = if_not_none!(jsn, "scaling_position_y", self.scaling_position_y);
-                jsn = jsn + "}\n";
+                jsn += "}\n";
                 jsn
             }
             Actions::Remove => format!(

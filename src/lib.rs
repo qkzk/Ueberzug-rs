@@ -54,11 +54,11 @@ impl Ueberzug {
     pub fn draw(&self, config: &UeConf) {
         let cmd = config.to_json();
         if let Err(e) = self.run(&cmd) {
-            println!(
-                "could not draw {},from path {}",
-                config.identifier, config.path
-            );
-            println!("{}", e);
+            // println!(
+            //     "could not draw {},from path {}",
+            //     config.identifier, config.path
+            // );
+            // println!("{}", e);
         };
     }
     /// Clear the drawn image only requires the identifier
@@ -78,8 +78,8 @@ impl Ueberzug {
             *ueberzug = Some(
                 std::process::Command::new("ueberzug")
                     .args(["layer", "--silent"])
-                    .stdin(Stdio::piped())
-                    .stdout(Stdio::piped())
+                    .stdin(Stdio::null())
+                    .stdout(Stdio::null())
                     .spawn()?,
             );
         }
@@ -248,7 +248,7 @@ mod tests {
         assert_eq!(scaler_2.to_string(), "fit_contain");
     }
     #[test]
-    fn json_convertion() {
+    fn json_conversion() {
         let conf = UeConf {
             identifier: "a",
             path: "a",
